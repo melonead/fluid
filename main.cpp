@@ -21,14 +21,14 @@
 #define numVAOs 1
 #define numVBOs 5
 
-std::vector<Particle> particleTable[NUMCELLS]{};
+std::vector<Particle*> particleTable[NUMCELLS]{};
 
 const int NUMSEGMENTS = 180;
 float CircleVertices[NUMSEGMENTS * 3 * 3];
 const float PI = 3.142857f;
 const float DEG2RAD = PI / 180.0f;
 
-Particle SimParticles[NUMPARTICLES];
+Particle SimParticles[NUMPARTICLES] = {};
 
 float cameraX, cameraY, cameraZ;
 float cubeLocX, cubeLocY, cubeLocZ;
@@ -273,7 +273,7 @@ void display(GLFWwindow* window,
         trans.x = SimParticles[i].pos[0];
         trans.y = SimParticles[i].pos[1];
 
-        std::vector<Particle> neighbors;
+        std::vector<Particle*> neighbors;
 
         getNeighbors(SimParticles[i].pos, neighbors, particleTable);
 
@@ -283,25 +283,43 @@ void display(GLFWwindow* window,
         LeapFrogIntegration(SimParticles[i], deltaTime, gravityAccel);
 
         interactWithMouse(SimParticles[i], mousePosition, mouseKeyPressed);
-
-        glm::vec2 a = getCellPosition(SimParticles[i].pos);
-        int k = tableHash(a);
-
-        //if ((k != SimParticles[i].key) && particleTable[SimParticles[i].key].size() > 0)
+        //std::cout << particleTable[SimParticles[i].key].size() << std::endl;
+       
+        int k = computeKey(SimParticles[i].pos);
+        //std::cout << "22222222222222222222222222222222222222222222222222222222222222222222222222222222222222" << std::endl;
+        //std::cout << " FOR PARTICLE ID = " << SimParticles[i].id << std::endl;
+        //std::cout << "new key = " << k << " older key = " << SimParticles[i].key << std::endl;
+        //std::cout << "==================================================" << std::endl;
+        //std::cout << " FOR PARTICLE ID = " << particleTable[k][SimParticles[i].index]->id << std::endl;
+        //std::cout << "new key = " << k << " older key = " << particleTable[k][SimParticles[i].index]->key << std::endl;
+        //std::cout << "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" << std::endl;
+        //if ((k != SimParticles[i].key) && !particleTable[SimParticles[i].key].empty())
         //{
-        //    //// put it in the cell it belongs to now
-        //    //insertInCell(SimParticles[i], particleTable);
-        //    //// remove it from its current cell
-        //    //particleTable[SimParticles[i].prevKey].erase(particleTable[SimParticles[i].prevKey].begin() + SimParticles[i].prevIndex);
-        //    //
-        //    //SimParticles[i].prevKey = k;
-        //    //SimParticles[i].prevIndex = SimParticles[i].index;
-
-        //    insertInCell(SimParticles[i], particleTable);
-        //    particleTable[SimParticles[i].prevKey].erase(particleTable[SimParticles[i].prevKey].begin() + SimParticles[i].prevIndex);
-
-        //    SimParticles[i].prevKey = k;
+        //    SimParticles[i].prevKey = SimParticles[i].key;
         //    SimParticles[i].prevIndex = SimParticles[i].index;
+        //    
+        //    // remove it from its current cell
+        //    particleTable[SimParticles[i].prevKey].erase(particleTable[SimParticles[i].prevKey].begin() + SimParticles[i].prevIndex);
+        //    // put it in the cell it belongs to now
+        //    insertInCell(SimParticles[i], particleTable);
+
+
+        //    //std::vector<Particle>::iterator pIter;
+        //    //for (pIter = particleTable[SimParticles[i].key].begin(); pIter != particleTable[SimParticles[i].key].end(); pIter++)
+        //    //{
+        //    //    if ((*pIter).id == SimParticles[i].id)
+        //    //    {
+        //    //        /*std::cout << "found match" << std::endl;
+        //    //        std::cout << "Size is = " << particleTable[SimParticles[i].key].size() << std::endl;
+        //    //        std::cout << "Particle index is " << SimParticles[i].index << std::endl;*/
+        //    //        particleTable[SimParticles[i].key].erase(pIter);
+        //    //        insertInCell(SimParticles[i], particleTable);
+        //    //        break;
+        //    //    }
+        //    //}
+
+
+        //    
         //}
 
         neighbors.clear();
@@ -311,7 +329,7 @@ void display(GLFWwindow* window,
     // repopulate the table with updated positions
     for (int i = 0; i < NUMPARTICLES; i++)
     {
-        insertInCell(SimParticles[i], particleTable);
+        insertInCell(&SimParticles[i], particleTable);
     }
 
     shaderProgram.use();
@@ -489,18 +507,23 @@ void initParticles()
     float startPos[2] = {-2.5f, -2.1f};
     float spacing = 3.0f;
     int c = 0;
+    //std::cout << "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" << std::endl;
     for (int y = 0; y < size; y++)
     {
         for (int x = 0; x < size; x++)
         {   
-            Particle p;
-            p.mass = 1;
-            p.pressure = 0;
-            p.pos[0] = startPos[0] + x / (spacing * 0.5);
-            p.pos[1] = startPos[1] + y / spacing;
-            p.id = x + y * size;
-            SimParticles[p.id] = p;
-            insertInCell(p, particleTable);
+            int index = x + y * size;
+            SimParticles[index].mass = 1;
+            SimParticles[index].pressure = 0;
+            SimParticles[index].pos[0] = startPos[0] + x / (spacing * 0.5);
+            SimParticles[index].pos[1] = startPos[1] + y / spacing;
+            SimParticles[index].id = index;
+            insertInCell(&SimParticles[index], particleTable);
+            Particle* ptr = &SimParticles[index];
+            /*std::cout << "------------------------------------------------------ excepting only one initialization ---------------------------------" << std::endl;*/
+           /* std::cout << "key Sim = " << SimParticles[index].key << std::endl;
+            std::cout << "key Table = " << ptr->key << std::endl;*/
+
         }
     }
 }

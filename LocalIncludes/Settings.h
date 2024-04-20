@@ -41,6 +41,9 @@ const int  xRange = (X_MAX_BOUND - X_MIN_BOUND) / IRADIUS;
 //typedef struct Particle Particle;
 struct Particle
 {
+	/*Particle () {
+		std::cout << "particle created" << std::endl;
+	}*/
 	int id = NULL;
 	int key = NULL;
 	int index = NULL;

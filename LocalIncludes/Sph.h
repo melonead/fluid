@@ -28,7 +28,7 @@ double poly6(double dist)
 }
 
 // _max: return max of two value
-double _max(double a, double b)
+double _min(double a, double b)
 {
 	return a < b ? a : b;
 }
@@ -36,21 +36,21 @@ double _max(double a, double b)
 // getPressure: return the pressure to be applied to a particle
 double getPressure(double d)
 {
-	return _max(PRESSUREMULTIPLIER * (d - IDEALDENS), 0);
+	return _min(PRESSUREMULTIPLIER * (d - IDEALDENS), 0);
 }
 
 // computeDensity: computes the density of a particle
-void computeDensity(Particle &p, std::vector<Particle> nbs, int N)
+void computeDensity(Particle &p, std::vector<Particle*> nbs, int N)
 {
 	p.density = 0.0;
 	double dist = 0.0;
 	for (int i = 0; i < N; i++)
 	{
 		//std::cout << nbs[i].pos[0] << std::endl;
-		dist = getDistance(p.pos, nbs[i].pos);
+		dist = getDistance(p.pos, nbs[i]->pos);
 		if (dist < IRADIUS)
 		{
-			p.density += nbs[i].mass * poly6(dist) * poly6Const;
+			p.density += nbs[i]->mass * poly6(dist) * poly6Const;
 		}
 	}
 	p.pressure = getPressure(p.density);
@@ -59,9 +59,9 @@ void computeDensity(Particle &p, std::vector<Particle> nbs, int N)
 
 // avPressure: return the average pressure between 
 // two particles
-double avPressure(Particle &a, Particle &b)
+double avPressure(Particle *a, Particle *b)
 {
-	return ((a.pressure + b.pressure) / (2.0));
+	return ((a->pressure + b->pressure) / (2.0));
 }
 
 // getPressureGradient: the pressure gradient kernel
@@ -81,7 +81,7 @@ double getViscGradient(double dist)
 }
 
 // computeForces: compute forces acting on a particle
-void computeForces(Particle &p, std::vector<Particle> nbs, int N)
+void computeForces(Particle &p, std::vector<Particle*> nbs, int N)
 {	
 	p.totalForce[0] = 0.0;
 	p.totalForce[1] = 0.0;
@@ -94,24 +94,24 @@ void computeForces(Particle &p, std::vector<Particle> nbs, int N)
 	for (int i = 0; i < N; i++)
 	{
 
-		if (nbs[i].id == p.id)
+		if (nbs[i]->id == p.id)
 			continue;
-		dist = getDistance(p.pos, nbs[i].pos);
-		vec[0] = nbs[i].pos[0] - p.pos[0]; 
-		vec[1] = nbs[i].pos[1] - p.pos[1];
+		dist = getDistance(p.pos, nbs[i]->pos);
+		vec[0] = nbs[i]->pos[0] - p.pos[0]; 
+		vec[1] = nbs[i]->pos[1] - p.pos[1];
 
 		dir[0] = vec[0] / dist;
 		dir[1] = vec[1] / dist;
 
-		if (nbs[i].density <= 0.0)
-			nbs[i].density = 1;
+		if (nbs[i]->density <= 0.0)
+			nbs[i]->density = 1;
 
-		pr[0] += (nbs[i].mass / nbs[i].density) * avPressure(p, nbs[i]) * getPressureGradient(dist) * dir[0];
-		pr[1] += (nbs[i].mass / nbs[i].density) * avPressure(p, nbs[i]) * getPressureGradient(dist) * dir[1];
+		pr[0] += (nbs[i]->mass / nbs[i]->density) * avPressure(&p, nbs[i]) * getPressureGradient(dist) * dir[0];
+		pr[1] += (nbs[i]->mass / nbs[i]->density) * avPressure(&p, nbs[i]) * getPressureGradient(dist) * dir[1];
 
 
-		vis[0] += (nbs[i].velocity[0] - p.velocity[0]) * (nbs[i].mass / nbs[i].density) * getViscGradient(dist) * dir[0];
-		vis[1] += (nbs[i].velocity[1] - p.velocity[1]) * (nbs[i].mass / nbs[i].density) * getViscGradient(dist) * dir[1];
+		vis[0] += (nbs[i]->velocity[0] - p.velocity[0]) * (nbs[i]->mass / nbs[i]->density) * getViscGradient(dist) * dir[0];
+		vis[1] += (nbs[i]->velocity[1] - p.velocity[1]) * (nbs[i]->mass / nbs[i]->density) * getViscGradient(dist) * dir[1];
 
 	}
 

@@ -61,17 +61,24 @@ static void getNeighborKeysV2(double position[], int keys[])
 
 // vector<int> (&gr)[10]
 // insertInMap: inserts the particle into the hashtable
-static void insertInCell(Particle& p, std::vector<Particle> (& Table)[NUMCELLS])
+static void insertInCell(Particle *p, std::vector<Particle*> (& Table)[NUMCELLS])
 {
-	glm::vec2 cellPos = getCellPosition(p.pos);
+	glm::vec2 cellPos = getCellPosition(p->pos);
 	int key = tableHash(cellPos);
 	Table[key].emplace_back(p);
-	p.index = Table[key].size() - 1;
+	p->index = Table[key].size() - 1;
 	//std::cout << p.index << std::endl;
-	p.key = key;
+	p->key = key;
 }
 
-static void clearTable(std::vector<Particle>(&Table)[NUMCELLS])
+static int computeKey(double position[])
+{
+	glm::vec2 cellPos = getCellPosition(position);
+	int key = tableHash(cellPos);
+	return key;
+}
+
+static void clearTable(std::vector<Particle*>(&Table)[NUMCELLS])
 {
 	for (int i = 0; i < NUMCELLS; i++)
 	{
@@ -79,7 +86,7 @@ static void clearTable(std::vector<Particle>(&Table)[NUMCELLS])
 	}
 }
 
-static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle>(&Table)[NUMCELLS])
+static void getNeighbors(double position[], std::vector<Particle*>& nbs, std::vector<Particle*>(&Table)[NUMCELLS])
 {
 	int nkeys[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	getNeighborKeysV2(position, nkeys);
