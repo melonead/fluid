@@ -81,7 +81,7 @@ double getViscGradient(double dist)
 }
 
 // computeForces: compute forces acting on a particle
-void computeForces(Particle &p, std::vector<Particle> nbs, int N)
+void computeForces(Particle &p, std::vector<Particle> &nbs, int N)
 {	
 	p.totalForce[0] = 0.0;
 	p.totalForce[1] = 0.0;
@@ -93,25 +93,26 @@ void computeForces(Particle &p, std::vector<Particle> nbs, int N)
 	double vec[2] = { 0.0, 0.0 };
 	for (int i = 0; i < N; i++)
 	{
+		Particle& nb = nbs.at(i);
 
-		if (nbs[i].id == p.id)
+		if (nb.id == p.id)
 			continue;
-		dist = getDistance(p.pos, nbs[i].pos);
-		vec[0] = nbs[i].pos[0] - p.pos[0]; 
-		vec[1] = nbs[i].pos[1] - p.pos[1];
+		dist = getDistance(p.pos, nb.pos);
+		vec[0] = nb.pos[0] - p.pos[0]; 
+		vec[1] = nb.pos[1] - p.pos[1];
 
 		dir[0] = vec[0] / dist;
 		dir[1] = vec[1] / dist;
 
-		if (nbs[i].density <= 0.0)
-			nbs[i].density = 1;
+		if (nb.density <= 0.0)
+			nb.density = 0.001;
 
-		pr[0] += (nbs[i].mass / nbs[i].density) * avPressure(p, nbs[i]) * getPressureGradient(dist) * dir[0];
-		pr[1] += (nbs[i].mass / nbs[i].density) * avPressure(p, nbs[i]) * getPressureGradient(dist) * dir[1];
+		pr[0] += (nb.mass / nb.density) * avPressure(p, nb) * getPressureGradient(dist) * dir[0];
+		pr[1] += (nb.mass / nb.density) * avPressure(p, nb) * getPressureGradient(dist) * dir[1];
 
 
-		vis[0] += (nbs[i].velocity[0] - p.velocity[0]) * (nbs[i].mass / nbs[i].density) * getViscGradient(dist) * dir[0];
-		vis[1] += (nbs[i].velocity[1] - p.velocity[1]) * (nbs[i].mass / nbs[i].density) * getViscGradient(dist) * dir[1];
+		vis[0] += (nb.velocity[0] - p.velocity[0]) * (nb.mass / nb.density) * getViscGradient(dist) * dir[0];
+		vis[1] += (nb.velocity[1] - p.velocity[1]) * (nb.mass / nb.density) * getViscGradient(dist) * dir[1];
 
 	}
 

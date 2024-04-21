@@ -91,7 +91,8 @@ static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vec
 			continue;
 		for (int j = 0; j < size; j++)
 		{
-			nbs.emplace_back(Table[nkeys[i]][j]);
+			Particle& nb = Table[nkeys[i]].at(j);
+			nbs.push_back(nb);
 		}
 
 	}

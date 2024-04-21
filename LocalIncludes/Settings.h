@@ -2,11 +2,11 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 400;
+const int NUMPARTICLES = 625;
 
 
 const double pi = 3.142857;
-const double IRADIUS = 0.5; // 0.35f was good but unstable, try it later
+const double IRADIUS = 0.45; // 0.35f was good but unstable, try it later
 const double IDEALDENS = 997.0;
 const double VISCMULTIPLIER = 0.001;
 
@@ -25,7 +25,7 @@ const double DAMP = -0.20;
 
 
 // screen bounds for the
-const double xbound = 20.0;
+const double xbound = 10.0;
 const double ybound = 10.0;
 const double X_MIN_BOUND = xbound * -1.0;
 const double X_MAX_BOUND = xbound;

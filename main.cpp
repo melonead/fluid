@@ -79,9 +79,10 @@ const char* circlefPath = "shader/circleFragment.glsl";
 const char* rectvPath = "shader/rectVertex.glsl";
 const char* rectfPath = "shader/rectFragment.glsl";
 
-int SCR_WIDTH =  1200;
+int SCR_WIDTH =  600;
 int SCR_HEIGHT = 600;
 double gravityAccel = -9.8;
+std::vector<Particle> neighbors;
 
 
 // mouse stuff
@@ -139,6 +140,13 @@ int main()
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    // reserve neighbor size
+    neighbors.reserve(30);
+    // reserve size of each cell
+    for (int i = 0; i < NUMCELLS; i++)
+    {
+        particleTable[i].reserve(5);
+    }
     initParticles();
     
     // render loop
@@ -231,9 +239,7 @@ void init(GLFWwindow* window)
     aspect = (float)SCR_WIDTH / (float)SCR_HEIGHT;
     pMat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
 
-    // load image
-    texture = load_stb_image("resources/textures/earthmap1k.jpg");
-    
+    // load image    
     vMat = {
         1.0f,     0.0f,     0.0f,     0.0f,
         0.0f,     1.0f,     0.0f,     0.0f,
@@ -272,11 +278,8 @@ void display(GLFWwindow* window,
         glm::vec2 trans;
         trans.x = SimParticles[i].pos[0];
         trans.y = SimParticles[i].pos[1];
-
-        std::vector<Particle> neighbors;
-
+        
         getNeighbors(SimParticles[i].pos, neighbors, particleTable);
-
         translations[i] = trans;
         computeDensity(SimParticles[i], neighbors, neighbors.size());
         computeForces(SimParticles[i], neighbors, neighbors.size());
@@ -486,21 +489,20 @@ void initParticles()
 {
     float range = 200.0f;
     int size = std::sqrt(NUMPARTICLES);
-    float startPos[2] = {-2.5f, -2.1f};
+    float startPos[2] = {-8.5f, -4.1f};
     float spacing = 3.0f;
     int c = 0;
     for (int y = 0; y < size; y++)
     {
         for (int x = 0; x < size; x++)
         {   
-            Particle p;
-            p.mass = 1;
-            p.pressure = 0;
-            p.pos[0] = startPos[0] + x / (spacing * 0.5);
-            p.pos[1] = startPos[1] + y / spacing;
-            p.id = x + y * size;
-            SimParticles[p.id] = p;
-            insertInCell(p, particleTable);
+            int index = x + y * size;
+            SimParticles[index].mass = 1;
+            SimParticles[index].pressure = 0;
+            SimParticles[index].pos[0] = startPos[0] + x / (spacing * 0.5);
+            SimParticles[index].pos[1] = startPos[1] + y / spacing;
+            SimParticles[index].id = index;
+            insertInCell(SimParticles[index], particleTable);
         }
     }
 }
@@ -589,10 +591,10 @@ void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[])
     double yDist = mousePos.y - p.pos[1];
     double dist = sqrt(xDist * xDist + yDist * yDist);
     double dir[] = { xDist / dist, yDist / dist };
-    double speed = 0.5;
+    double speed = 0.55;
 
     //std::cout << dist << std::endl;
-    double infDist = 4.0;
+    double infDist = 2.0;
     // repel 
     if (dist < infDist && mouseClick[0])
     {

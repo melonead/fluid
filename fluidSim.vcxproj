@@ -140,12 +140,46 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="kernels\Kernels.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="fluidSim\x64\Debug\fluidSim.exe.recipe" />
+    <None Include="fluidSim\x64\Debug\fluidSim.ilk" />
+    <None Include="fluidSim\x64\Debug\vc143.idb" />
+    <None Include="fluidSim\x64\Debug\vc143.pdb" />
+    <None Include="shader\circleFragment.glsl" />
+    <None Include="shader\circleVertex.glsl" />
+    <None Include="shader\fragment_shader.glsl" />
+    <None Include="shader\lineFragment.glsl" />
+    <None Include="shader\lineVertex.glsl" />
+    <None Include="shader\rectFragment.glsl" />
+    <None Include="shader\rectVertex.glsl" />
+    <None Include="shader\vertex_shader.glsl" />
     <None Include="x64\Debug\fluidSim.exe" />
     <None Include="x64\Debug\fluidSim.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LocalIncludes\Hashtable.h" />
+    <ClInclude Include="LocalIncludes\Settings.h" />
+    <ClInclude Include="LocalIncludes\shader.h" />
+    <ClInclude Include="LocalIncludes\Sph.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\bricks2.jpg" />
+    <Image Include="resources\textures\container.jpg" />
+    <Image Include="resources\textures\earthmap1k.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fluidSim\x64\Debug\fluidSim.Build.CppClean.log" />
+    <Text Include="fluidSim\x64\Debug\fluidSim.log" />
+    <Text Include="fluidSim\x64\Debug\fluidSim.vcxproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="fluidSim\x64\Debug\glad.obj" />
+    <Object Include="fluidSim\x64\Debug\main.obj" />
+    <Object Include="fluidSim\x64\Debug\stb_image.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
