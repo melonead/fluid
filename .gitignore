@@ -1,5 +1,9 @@
 .vs
+TODO.txt
 .fluidSim
 .x64
-.TODO
 .resources
+*.vcxproj
+*.filters
+*.user
+*.log
