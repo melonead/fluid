@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 625;
+const int NUMPARTICLES = 400;
 
 
 const double pi = 3.142857;
