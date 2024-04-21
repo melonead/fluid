@@ -67,17 +67,17 @@ void drawRect(double topLeft[], double height, double width);
 glm::vec4 screenToWorldSpace(double mousePos[], glm::mat4 projection, glm::mat4 viewMatrix);
 void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[]);
 
-const char* vPath = "shader/vertex_shader.glsl";
-const char* fPath = "shader/fragment_shader.glsl";
+const char* vPath = "C:/Users/brian/programming_projects/fluidSim/shader/vertex_shader.glsl";
+const char* fPath = "C:/Users/brian/programming_projects/fluidSim/shader/fragment_shader.glsl";
 
-const char* linevPath = "shader/lineVertex.glsl";
-const char* linefPath = "shader/lineFragment.glsl";
+const char* linevPath = "C:/Users/brian/programming_projects/fluidSim/shader/lineVertex.glsl";
+const char* linefPath = "C:/Users/brian/programming_projects/fluidSim/shader/lineFragment.glsl";
 
-const char* circlevPath = "shader/circleVertex.glsl";
-const char* circlefPath = "shader/circleFragment.glsl";
+const char* circlevPath = "C:/Users/brian/programming_projects/fluidSim/shader/circleVertex.glsl";
+const char* circlefPath = "C:/Users/brian/programming_projects/fluidSim/shader/circleFragment.glsl";
 
-const char* rectvPath = "shader/rectVertex.glsl";
-const char* rectfPath = "shader/rectFragment.glsl";
+const char* rectvPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectVertex.glsl";
+const char* rectfPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectFragment.glsl";
 
 int SCR_WIDTH =  600;
 int SCR_HEIGHT = 600;
