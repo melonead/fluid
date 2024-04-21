@@ -67,21 +67,22 @@ void drawRect(double topLeft[], double height, double width);
 glm::vec4 screenToWorldSpace(double mousePos[], glm::mat4 projection, glm::mat4 viewMatrix);
 void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[]);
 
-const char* vPath = "shader/vertex_shader.glsl";
-const char* fPath = "shader/fragment_shader.glsl";
+const char* vPath = "C:/Users/brian/programming_projects/fluidSim/shader/vertex_shader.glsl";
+const char* fPath = "C:/Users/brian/programming_projects/fluidSim/shader/fragment_shader.glsl";
 
-const char* linevPath = "shader/lineVertex.glsl";
-const char* linefPath = "shader/lineFragment.glsl";
+const char* linevPath = "C:/Users/brian/programming_projects/fluidSim/shader/lineVertex.glsl";
+const char* linefPath = "C:/Users/brian/programming_projects/fluidSim/shader/lineFragment.glsl";
 
-const char* circlevPath = "shader/circleVertex.glsl";
-const char* circlefPath = "shader/circleFragment.glsl";
+const char* circlevPath = "C:/Users/brian/programming_projects/fluidSim/shader/circleVertex.glsl";
+const char* circlefPath = "C:/Users/brian/programming_projects/fluidSim/shader/circleFragment.glsl";
 
-const char* rectvPath = "shader/rectVertex.glsl";
-const char* rectfPath = "shader/rectFragment.glsl";
+const char* rectvPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectVertex.glsl";
+const char* rectfPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectFragment.glsl";
 
-int SCR_WIDTH =  1200;
+int SCR_WIDTH =  600;
 int SCR_HEIGHT = 600;
 double gravityAccel = -9.8;
+std::vector<Particle> neighbors;
 
 
 // mouse stuff
@@ -139,6 +140,13 @@ int main()
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    // reserve neighbor size
+    neighbors.reserve(30);
+    // reserve size of each cell
+    for (int i = 0; i < NUMCELLS; i++)
+    {
+        particleTable[i].reserve(5);
+    }
     initParticles();
     
     // render loop
@@ -231,9 +239,7 @@ void init(GLFWwindow* window)
     aspect = (float)SCR_WIDTH / (float)SCR_HEIGHT;
     pMat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
 
-    // load image
-    texture = load_stb_image("resources/textures/earthmap1k.jpg");
-    
+    // load image    
     vMat = {
         1.0f,     0.0f,     0.0f,     0.0f,
         0.0f,     1.0f,     0.0f,     0.0f,
@@ -272,11 +278,14 @@ void display(GLFWwindow* window,
         glm::vec2 trans;
         trans.x = SimParticles[i].pos[0];
         trans.y = SimParticles[i].pos[1];
+<<<<<<< HEAD
 
         std::vector<Particle*> neighbors;
 
+=======
+        
+>>>>>>> betterVectorUse
         getNeighbors(SimParticles[i].pos, neighbors, particleTable);
-
         translations[i] = trans;
         computeDensity(SimParticles[i], neighbors, neighbors.size());
         computeForces(SimParticles[i], neighbors, neighbors.size());
@@ -504,7 +513,7 @@ void initParticles()
 {
     float range = 200.0f;
     int size = std::sqrt(NUMPARTICLES);
-    float startPos[2] = {-2.5f, -2.1f};
+    float startPos[2] = {-8.5f, -4.1f};
     float spacing = 3.0f;
     int c = 0;
     //std::cout << "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" << std::endl;
@@ -518,12 +527,16 @@ void initParticles()
             SimParticles[index].pos[0] = startPos[0] + x / (spacing * 0.5);
             SimParticles[index].pos[1] = startPos[1] + y / spacing;
             SimParticles[index].id = index;
+<<<<<<< HEAD
             insertInCell(&SimParticles[index], particleTable);
             Particle* ptr = &SimParticles[index];
             /*std::cout << "------------------------------------------------------ excepting only one initialization ---------------------------------" << std::endl;*/
            /* std::cout << "key Sim = " << SimParticles[index].key << std::endl;
             std::cout << "key Table = " << ptr->key << std::endl;*/
 
+=======
+            insertInCell(SimParticles[index], particleTable);
+>>>>>>> betterVectorUse
         }
     }
 }
@@ -612,10 +625,10 @@ void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[])
     double yDist = mousePos.y - p.pos[1];
     double dist = sqrt(xDist * xDist + yDist * yDist);
     double dir[] = { xDist / dist, yDist / dist };
-    double speed = 0.5;
+    double speed = 0.55;
 
     //std::cout << dist << std::endl;
-    double infDist = 4.0;
+    double infDist = 2.0;
     // repel 
     if (dist < infDist && mouseClick[0])
     {
