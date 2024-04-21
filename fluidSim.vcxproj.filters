@@ -43,6 +43,7 @@
     <None Include="fluidSim\x64\Debug\fluidSim.ilk" />
     <None Include="fluidSim\x64\Debug\vc143.idb" />
     <None Include="fluidSim\x64\Debug\vc143.pdb" />
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LocalIncludes\Hashtable.h">

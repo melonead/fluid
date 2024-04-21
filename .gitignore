@@ -3,3 +3,7 @@ TODO.txt
 .fluidSim
 .x64
 .resources
+*.vcxproj
+*.filters
+*.user
+*.log
