@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 400;
+const int NUMPARTICLES = 1225;
 
 
 const double pi = 3.142857;
@@ -21,7 +21,7 @@ const double spikyLap = 45.0f / (pi * pow(IRADIUS, 6.0));
 //const static double spikyLap = 40.f / (pi * pow(IRADIUS, 5.f));
 
 // velocity damp
-const double DAMP = -0.10;
+const double DAMP = -0.2;
 
 // screen bounds for the
 const double xbound = 20.0;

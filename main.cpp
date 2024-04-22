@@ -276,19 +276,16 @@ void display(GLFWwindow* window,
     for (int i = 0; i < NUMPARTICLES; i++)
     {
         glm::vec2 trans;
-        trans.x = SimParticles[i].pos[0];
-        trans.y = SimParticles[i].pos[1];
+        Particle& part = SimParticles[i];
+        trans.x = part.pos[0];
+        trans.y = part.pos[1];
         
-        getNeighbors(SimParticles[i].pos, neighbors, particleTable);
+        getNeighbors(part.pos, neighbors, particleTable);
         translations[i] = trans;
-        computeDensity(SimParticles[i], neighbors, neighbors.size());
-        computeForces(SimParticles[i], neighbors, neighbors.size());
-        LeapFrogIntegration(SimParticles[i], deltaTime, gravityAccel);
-
-        interactWithMouse(SimParticles[i], mousePosition, mouseKeyPressed);
-        //std::cout << particleTable[SimParticles[i].key].size() << std::endl;
-       
-        int k = computeKey(SimParticles[i].pos);
+        computeDensity(part, neighbors, neighbors.size());
+        computeForces(part, neighbors, neighbors.size());
+        LeapFrogIntegration(part, deltaTime, gravityAccel);
+        interactWithMouse(part, mousePosition, mouseKeyPressed);
 
         neighbors.clear();
     }
