@@ -1,0 +1,7 @@
+1. display current fps
+2. abstract the spatial hash into a reusable class
+3. implement surface tension
+4. send particle specific data to the fragment shader (for visualizaton)
+5. control when the simualtion starts
+6. hot reloading settings/variable changes
+7. why does visual studio compiler try to compile/access a deleted file (Kernels.cpp)
