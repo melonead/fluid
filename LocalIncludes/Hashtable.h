@@ -78,7 +78,7 @@ static int computeKey(double position[])
 	return key;
 }
 
-static void clearTable(std::vector<Particle*>(&Table)[NUMCELLS])
+static void clearTable(std::vector<Particle>(&Table)[NUMCELLS])
 {
 	for (int i = 0; i < NUMCELLS; i++)
 	{
@@ -86,7 +86,7 @@ static void clearTable(std::vector<Particle*>(&Table)[NUMCELLS])
 	}
 }
 
-static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle*>(&Table)[NUMCELLS])
+static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle>(&Table)[NUMCELLS])
 {
 	int nkeys[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	getNeighborKeysV2(position, nkeys);

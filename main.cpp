@@ -79,7 +79,7 @@ const char* circlefPath = "C:/Users/brian/programming_projects/fluidSim/shader/c
 const char* rectvPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectVertex.glsl";
 const char* rectfPath = "C:/Users/brian/programming_projects/fluidSim/shader/rectFragment.glsl";
 
-int SCR_WIDTH =  600;
+int SCR_WIDTH =  1200;
 int SCR_HEIGHT = 600;
 double gravityAccel = -9.8;
 std::vector<Particle> neighbors;

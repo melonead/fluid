@@ -1,6 +1,4 @@
-﻿  glad.c
-  Kernels.cpp
-  main.cpp
+﻿  main.cpp
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Settings.h(35,41): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   (compiling source file 'main.cpp')
   
@@ -10,27 +8,6 @@ C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Settings.h(37,49): wa
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Settings.h(38,49): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   (compiling source file 'main.cpp')
   
-<<<<<<< HEAD
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(113,37): error C2664: 'double avPressure(Particle *,Particle *)': cannot convert argument 1 from 'Particle' to 'Particle *'
-  (compiling source file 'main.cpp')
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(113,48):
-  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(62,8):
-  see declaration of 'avPressure'
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(113,37):
-  while trying to match the argument list '(Particle, Particle)'
-  
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(114,37): error C2664: 'double avPressure(Particle *,Particle *)': cannot convert argument 1 from 'Particle' to 'Particle *'
-  (compiling source file 'main.cpp')
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(114,48):
-  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(62,8):
-  see declaration of 'avPressure'
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(114,37):
-  while trying to match the argument list '(Particle, Particle)'
-  
-=======
->>>>>>> betterVectorUse
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(18,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(18,8): warning C4244:         with
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(18,8): warning C4244:         [
@@ -54,18 +31,7 @@ C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(29,8): wa
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(69,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'main.cpp')
   
-<<<<<<< HEAD
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(96,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'main.cpp')
-  
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(101,17): error C2440: 'initializing': cannot convert from '_Ty' to 'Particle &'
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(101,17): error C2440:         with
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(101,17): error C2440:         [
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(101,17): error C2440:             _Ty=Particle *
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(101,17): error C2440:         ]
-=======
-C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(89,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
->>>>>>> betterVectorUse
   (compiling source file 'main.cpp')
   
 C:\Users\brian\programming_projects\fluidSim\LocalIncludes\shader.h(87,17): warning C4129: 'N': unrecognized character escape sequence
@@ -81,28 +47,8 @@ C:\Users\brian\programming_projects\fluidSim\main.cpp(280,40): warning C4244:   
 C:\Users\brian\programming_projects\fluidSim\main.cpp(280,40): warning C4244:         [
 C:\Users\brian\programming_projects\fluidSim\main.cpp(280,40): warning C4244:             T=float
 C:\Users\brian\programming_projects\fluidSim\main.cpp(280,40): warning C4244:         ]
-<<<<<<< HEAD
-C:\Users\brian\programming_projects\fluidSim\main.cpp(282,9): error C2664: 'void getNeighbors(double [],std::vector<Particle,std::allocator<Particle>> &,std::vector<Particle *,std::allocator<Particle *>> (&)[493])': cannot convert argument 3 from 'std::vector<Particle,std::allocator<Particle>> [493]' to 'std::vector<Particle *,std::allocator<Particle *>> (&)[493]'
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(89,13):
-  see declaration of 'getNeighbors'
-  C:\Users\brian\programming_projects\fluidSim\main.cpp(282,9):
-  while trying to match the argument list '(double [2], std::vector<Particle,std::allocator<Particle>>, std::vector<Particle,std::allocator<Particle>> [493])'
-  
-C:\Users\brian\programming_projects\fluidSim\main.cpp(284,9): error C2664: 'void computeDensity(Particle &,std::vector<Particle *,std::allocator<Particle *>>,int)': cannot convert argument 2 from 'std::vector<Particle,std::allocator<Particle>>' to 'std::vector<Particle *,std::allocator<Particle *>>'
-  C:\Users\brian\programming_projects\fluidSim\main.cpp(284,41):
-  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Sph.h(43,6):
-  see declaration of 'computeDensity'
-  C:\Users\brian\programming_projects\fluidSim\main.cpp(284,9):
-  while trying to match the argument list '(Particle, std::vector<Particle,std::allocator<Particle>>, unsigned __int64)'
-  
+C:\Users\brian\programming_projects\fluidSim\main.cpp(284,66): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\brian\programming_projects\fluidSim\main.cpp(285,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(296,5): error C2664: 'void clearTable(std::vector<Particle *,std::allocator<Particle *>> (&)[493])': cannot convert argument 1 from 'std::vector<Particle,std::allocator<Particle>> [493]' to 'std::vector<Particle *,std::allocator<Particle *>> (&)[493]'
-  C:\Users\brian\programming_projects\fluidSim\LocalIncludes\Hashtable.h(81,13):
-  see declaration of 'clearTable'
-  C:\Users\brian\programming_projects\fluidSim\main.cpp(296,5):
-  while trying to match the argument list '(std::vector<Particle,std::allocator<Particle>> [493])'
-  
 C:\Users\brian\programming_projects\fluidSim\main.cpp(360,29): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
 C:\Users\brian\programming_projects\fluidSim\main.cpp(360,29): warning C4244:         with
 C:\Users\brian\programming_projects\fluidSim\main.cpp(360,29): warning C4244:         [
@@ -130,43 +76,8 @@ C:\Users\brian\programming_projects\fluidSim\main.cpp(523,18): warning C4838: co
 C:\Users\brian\programming_projects\fluidSim\main.cpp(523,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\brian\programming_projects\fluidSim\main.cpp(523,30): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\brian\programming_projects\fluidSim\main.cpp(523,30): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  stb_image.cpp
-  Generating Code...
-=======
-C:\Users\brian\programming_projects\fluidSim\main.cpp(284,66): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(285,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(377,29): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(377,29): warning C4244:         with
-C:\Users\brian\programming_projects\fluidSim\main.cpp(377,29): warning C4244:         [
-C:\Users\brian\programming_projects\fluidSim\main.cpp(377,29): warning C4244:             T=float
-C:\Users\brian\programming_projects\fluidSim\main.cpp(377,29): warning C4244:         ]
-C:\Users\brian\programming_projects\fluidSim\main.cpp(378,29): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(378,29): warning C4244:         with
-C:\Users\brian\programming_projects\fluidSim\main.cpp(378,29): warning C4244:         [
-C:\Users\brian\programming_projects\fluidSim\main.cpp(378,29): warning C4244:             T=float
-C:\Users\brian\programming_projects\fluidSim\main.cpp(378,29): warning C4244:         ]
-C:\Users\brian\programming_projects\fluidSim\main.cpp(491,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(536,18): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(536,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(536,32): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(536,32): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(537,20): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(537,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(537,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(537,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(539,20): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(539,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(539,38): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(539,38): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(540,18): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(540,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\brian\programming_projects\fluidSim\main.cpp(540,30): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\brian\programming_projects\fluidSim\main.cpp(540,30): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  stb_image.cpp
-  Generating Code...
 fluidSim\x64\Debug\glad.obj : warning LNK4042: object specified more than once; extras ignored
 fluidSim\x64\Debug\main.obj : warning LNK4042: object specified more than once; extras ignored
 fluidSim\x64\Debug\stb_image.obj : warning LNK4042: object specified more than once; extras ignored
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   fluidSim.vcxproj -> C:\Users\brian\programming_projects\fluidSim\x64\Debug\fluidSim.exe
->>>>>>> betterVectorUse

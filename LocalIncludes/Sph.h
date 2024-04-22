@@ -40,17 +40,17 @@ double getPressure(double d)
 }
 
 // computeDensity: computes the density of a particle
-void computeDensity(Particle &p, std::vector<Particle*> nbs, int N)
+void computeDensity(Particle &p, std::vector<Particle> nbs, int N)
 {
 	p.density = 0.0;
 	double dist = 0.0;
 	for (int i = 0; i < N; i++)
 	{
 		//std::cout << nbs[i].pos[0] << std::endl;
-		dist = getDistance(p.pos, nbs[i]->pos);
+		dist = getDistance(p.pos, nbs[i].pos);
 		if (dist < IRADIUS)
 		{
-			p.density += nbs[i]->mass * poly6(dist) * poly6Const;
+			p.density += nbs[i].mass * poly6(dist) * poly6Const;
 		}
 	}
 	p.pressure = getPressure(p.density);
@@ -59,9 +59,9 @@ void computeDensity(Particle &p, std::vector<Particle*> nbs, int N)
 
 // avPressure: return the average pressure between 
 // two particles
-double avPressure(Particle *a, Particle *b)
+double avPressure(Particle &a, Particle &b)
 {
-	return ((a->pressure + b->pressure) / (2.0));
+	return ((a.pressure + b.pressure) / (2.0));
 }
 
 // getPressureGradient: the pressure gradient kernel

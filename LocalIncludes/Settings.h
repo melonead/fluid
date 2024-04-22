@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 400;
+const int NUMPARTICLES = 1225;
 
 
 const double pi = 3.142857;
@@ -21,11 +21,11 @@ const double spikyLap = 45.0f / (pi * pow(IRADIUS, 6.0));
 //const static double spikyLap = 40.f / (pi * pow(IRADIUS, 5.f));
 
 // velocity damp
-const double DAMP = -0.20;
+const double DAMP = -0.10;
 
 
 // screen bounds for the
-const double xbound = 10.0;
+const double xbound = 20.0;
 const double ybound = 10.0;
 const double X_MIN_BOUND = xbound * -1.0;
 const double X_MAX_BOUND = xbound;
@@ -44,6 +44,22 @@ struct Particle
 	/*Particle () {
 		std::cout << "particle created" << std::endl;
 	}*/
+
+	// Copy constructor
+	//Particle()
+	//	: id(id), key(key), index(index), prevKey(prevKey), prevIndex(prevIndex),
+	//	mass(mass), pressure(pressure), density(density)
+	//{
+	//	// Copy pos array
+	//	std::copy(std::begin(pos), std::end(pos), std::begin(pos));
+	//	std::copy(std::begin(prevPos), std::end(prevPos), std::begin(prevPos));
+	//	std::copy(std::begin(velocity), std::end(velocity), std::begin(velocity));
+	//	std::copy(std::begin(totalForce), std::end(totalForce), std::begin(totalForce));
+	//	std::copy(std::begin(acceleration), std::end(acceleration), std::begin(acceleration));
+	//	std::copy(std::begin(predictedPosition), std::end(predictedPosition), std::begin(predictedPosition));
+	//	std::cout << "copy of particle" << std::endl;
+	//}
+
 	int id = NULL;
 	int key = NULL;
 	int index = NULL;
@@ -58,6 +74,7 @@ struct Particle
 	double totalForce[2] = { 0.0, 0.0 };
 	double acceleration[2] = { 0.0, 0.0 };
 	double predictedPosition[2] = { 0.0, 0.0 };
+
 };
 
 #endif // !SETTINGS_H
