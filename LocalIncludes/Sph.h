@@ -59,7 +59,7 @@ void computeDensity(Particle &p, std::vector<Particle> nbs, int N)
 
 // avPressure: return the average pressure between 
 // two particles
-double avPressure(Particle *a, Particle *b)
+double avPressure(Particle &a, Particle &b)
 {
 	return ((a.pressure + b.pressure) / (2.0));
 }

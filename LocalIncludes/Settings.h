@@ -2,13 +2,13 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 1225;
+const int NUMPARTICLES = 400;
 
 
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // 0.35f was good but unstable, try it later
 const double IDEALDENS = 997.0;
-const double VISCMULTIPLIER = 0.001;
+const double VISCMULTIPLIER = -1000.0;
 
 //const double gravityAccel = 0.0;//-9.8;
 const double PRESSUREMULTIPLIER = 1000.0;
