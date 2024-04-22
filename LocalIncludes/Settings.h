@@ -22,7 +22,6 @@ const double spikyLap = 45.0f / (pi * pow(IRADIUS, 6.0));
 
 // velocity damp
 const double DAMP = -0.10;
-int a = 1;
 
 // screen bounds for the
 const double xbound = 20.0;
