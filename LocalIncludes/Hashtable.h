@@ -10,7 +10,7 @@
 const int P1 = 73856093;
 const int P2 = 19349663;
 
-//int Indices[20 * 40]; // table of all the cell indices
+int cellDisplacements[9][2] = {{0, 0}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, 1}, {1, 1}, {-1, -1}, {1, -1}};
 
 // hash: compute hash key from the position of a particle
 static int tableHash(glm::vec2 cellPos)
@@ -88,17 +88,20 @@ static void clearTable(std::vector<Particle>(&Table)[NUMCELLS])
 
 static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle>(&Table)[NUMCELLS])
 {
-	int nkeys[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	getNeighborKeysV2(position, nkeys);
-
+	glm::vec2 cellPos;
+	glm::vec2 bcellPos = getCellPosition(position);
+	int key;
 	for (int i = 0; i < 9; i++)
 	{
-		int size = Table[nkeys[i]].size();
+		cellPos.x = bcellPos.x + cellDisplacements[i][0];
+		cellPos.y = bcellPos.y + cellDisplacements[i][1];
+		key = tableHash(cellPos);
+		int size = Table[key].size();
 		if (size == 0)
 			continue;
 		for (int j = 0; j < size; j++)
 		{
-			Particle& nb = Table[nkeys[i]].at(j);
+			Particle& nb = Table[key].at(j);
 			nbs.push_back(nb);
 		}
 
