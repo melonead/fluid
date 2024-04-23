@@ -4,7 +4,6 @@
 #include <cmath>
 const int NUMPARTICLES = 1225;
 
-
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // 0.35f was good but unstable, try it later
 const double IDEALDENS = 997.0;
@@ -35,6 +34,8 @@ const int NUMCELLS = (xbound / IRADIUS) * (ybound / IRADIUS);
 
 const int  yRange = (Y_MAX_BOUND - Y_MIN_BOUND) / IRADIUS;
 const int  xRange = (X_MAX_BOUND - X_MIN_BOUND) / IRADIUS;
+
+const float particleRadius = 0.15f;
 
 // particle representation
 //typedef struct Particle Particle;

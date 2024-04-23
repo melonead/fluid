@@ -232,7 +232,7 @@ void init(GLFWwindow* window)
 
     cameraX = 0.0f; cameraY = 0.0f; cameraZ = 24.2001f;
     
-    setUpCircleVertices(0.15f, 0.0f, 0.0f);
+    setUpCircleVertices(particleRadius, 0.0f, 0.0f);
 
     // projection matrix
     glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_HEIGHT);

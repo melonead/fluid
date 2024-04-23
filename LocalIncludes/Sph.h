@@ -128,70 +128,6 @@ void computeForces(Particle &p, std::vector<Particle> &nbs, int N)
 }
 
 
-// move: moving the particle with a give velocity
-void move(Particle& p, double deltaTime)
-{	
-	p.pos[0] += (p.velocity[0] * deltaTime + (p.acceleration[0] * pow(deltaTime, 2)) / 2.0);
-	//p.pos[0] += p.velocity[0] * deltaTime;
-	p.predictedPosition[0] = p.pos[0] + p.velocity[0] * deltaTime;
-
-	double eps = 0.08;
-	if (p.pos[0] < X_MIN_BOUND)
-	{
-		p.velocity[0] *= DAMP;
-		p.pos[0] = X_MIN_BOUND + eps;
-
-	}
-	if (p.pos[0] > X_MAX_BOUND) {
-		p.velocity[0] *= DAMP;
-		p.pos[0] = X_MAX_BOUND - eps;
-	}
-
-
-	p.pos[1] += (p.velocity[1] * deltaTime + (p.acceleration[1] * pow(deltaTime, 2.0)) / 2.0);
-	//p.pos[1] += p.velocity[1] * deltaTime;
-	p.predictedPosition[1] = p.pos[1] + p.velocity[1] * deltaTime;
-
-	if (p.pos[1] < Y_MIN_BOUND)
-	{	
-		p.velocity[1] *= DAMP;
-		p.pos[1] = Y_MIN_BOUND + eps;
-		
-	}
-	if (p.pos[1] > Y_MAX_BOUND) {
-		p.velocity[1] *= DAMP;
-		p.pos[1] = Y_MAX_BOUND - eps;
-	}
-
-
-}
-
-// computeVelocity: use the total force to calculate the acceleration
-void computeVelocity(Particle &p, double deltaTime, double gravityAccel)
-{
-	double ax = p.acceleration[0] + ((p.totalForce[0] / p.density) * deltaTime);
-	double ay = p.acceleration[1] + ((p.totalForce[1] / p.density) * deltaTime);
-
-	p.velocity[0] += ((p.acceleration[0] + ax) * deltaTime) / 2.0f;
-	p.velocity[1] += ((p.acceleration[1] + ay) * deltaTime) / 2.0f;
-	p.velocity[1] += gravityAccel * deltaTime;
-	
-	/*p.acceleration[0] += (p.totalForce[0] / p.density) * deltaTime;
-	p.acceleration[1] += (p.totalForce[1] / p.density) * deltaTime;
-
-	p.velocity[0] += ((p.acceleration[0]) * deltaTime);
-	p.velocity[1] += ((p.acceleration[1]) * deltaTime);*/
-
-	/*double b = 1.005f;
-	if (p.velocity[0] > b)
-		p.velocity[0] = b;
-	if (p.velocity[1] > b)
-		p.velocity[1] = b;
-	if (p.velocity[0] < -b)
-		p.velocity[0] = -b;
-	if (p.velocity[1] < -b)
-		p.velocity[1] = -b;*/
-}
 
 void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 {
@@ -201,14 +137,14 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 	p.pos[0] += (p.velocity[0] * deltaTime + (p.acceleration[0] * pow(deltaTime, 2)) / 2.0);
 	p.predictedPosition[0] = p.pos[0] + p.velocity[0] * deltaTime;
 
-	double eps = 0.08;
-	if (p.pos[0] < X_MIN_BOUND)
+	double eps = 0.1;
+	if ((p.pos[0] - eps) < X_MIN_BOUND)
 	{
 		p.velocity[0] *= DAMP;
 		p.pos[0] = X_MIN_BOUND + eps;
 
 	}
-	if (p.pos[0] > X_MAX_BOUND) {
+	if ((p.pos[0] + eps) > X_MAX_BOUND) {
 		p.velocity[0] *= DAMP;
 		p.pos[0] = X_MAX_BOUND - eps;
 	}
@@ -219,13 +155,13 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 	p.pos[1] += (p.velocity[1] * deltaTime + (p.acceleration[1] * pow(deltaTime, 2.0)) / 2.0);
 	p.predictedPosition[1] = p.pos[1] + p.velocity[1] * deltaTime;
 
-	if (p.pos[1] < Y_MIN_BOUND)
+	if ((p.pos[1] - eps) < Y_MIN_BOUND)
 	{
 		p.velocity[1] *= DAMP;
 		p.pos[1] = Y_MIN_BOUND + eps;
 
 	}
-	if (p.pos[1] > Y_MAX_BOUND) {
+	if ((p.pos[1] + eps) > Y_MAX_BOUND) {
 		p.velocity[1] *= DAMP;
 		p.pos[1] = Y_MAX_BOUND - eps;
 	}
