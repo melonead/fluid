@@ -3,6 +3,7 @@
 #include <Settings.h>
 #include <vector>
 #include <Hashtable.h>
+#include <algorithm>
 
 
 // print: print function
@@ -35,7 +36,7 @@ double _min(double a, double b)
 // getPressure: return the pressure to be applied to a particle
 double getPressure(double d)
 {
-	return PRESSUREMULTIPLIER * (d - IDEALDENS);
+	return _min(PRESSUREMULTIPLIER * (d - IDEALDENS), 0.0);
 }
 
 // avPressure: return the average pressure between 
@@ -166,8 +167,6 @@ void simulateParticle(Particle& p, std::vector<Particle> &nbs, int N)
 
 	p.totalForce[0] = -pressureForce[0] + viscForce[0] * VISCMULTIPLIER;
 	p.totalForce[1] = -pressureForce[1] + viscForce[1] * VISCMULTIPLIER;
-	/*std::cout << "force 0 = " << p.totalForce[0] << std::endl;
-	std::cout << "force 1 = " << p.totalForce[1] << std::endl;*/
 
 }
 
@@ -212,7 +211,9 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 }
 
 // simulateFluid: complete simulation run on all the particles
-void simulateFluid(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS], int N, double deltaTime, double gravity, std::vector<Particle> neighbors, glm::vec2 translations[], glm::vec4 mousePos, bool mouseClick[])
+void simulateFluid(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS], 
+	int N, double deltaTime, double gravity, std::vector<Particle> neighbors, 
+	glm::vec2 translations[], glm::vec4 mousePos, bool mouseClick[])
 {	
 
 	for (int i = 0; i < N; i++)
@@ -223,7 +224,6 @@ void simulateFluid(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS]
 		trans.y = p.pos[1];
 		translations[i] = trans;
 		getNeighbors(p.pos, neighbors, Table);
-		//std::cout << nSize << std::endl;
 		simulateParticle(p, neighbors, neighbors.size());
 		LeapFrogIntegration(p, deltaTime, gravity);
 		//interactWithMouse(p, mousePos, mouseClick);

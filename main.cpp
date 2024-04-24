@@ -81,7 +81,7 @@ const char* rectfPath = "C:/Users/brian/programming_projects/fluidSim/shader/rec
 
 int SCR_WIDTH =  1200;
 int SCR_HEIGHT = 600;
-double gravityAccel = -9.8;
+double gravityAccel =  -9.8;
 std::vector<Particle> neighbors;
 
 
@@ -200,7 +200,6 @@ int main()
         {
             insertInCell(SimParticles[i], particleTable);
         }
-
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
