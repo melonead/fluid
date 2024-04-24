@@ -30,13 +30,13 @@ double poly6(double dist)
 // _max: return max of two value
 double _min(double a, double b)
 {
-	return a < b ? a : b;
+	return a > b ? a : b;
 }
 
 // getPressure: return the pressure to be applied to a particle
 double getPressure(double d)
 {
-	return _min(PRESSUREMULTIPLIER * (d - IDEALDENS), 0.0);
+	return PRESSUREMULTIPLIER * (d - IDEALDENS);
 }
 
 // avPressure: return the average pressure between 
@@ -100,7 +100,7 @@ void computeDensities(Particle particles[], std::vector<Particle>(&Table)[NUMCEL
 // computePressure: pressure acting between two particles
 double computePressure(Particle& p, Particle &nb, double dist)
 {
-	if (nb.density <= 0.0)
+	if (nb.density == 0.0)
 		nb.density = 0.001;
 	return (nb.mass / nb.density) * avPressure(p, nb) * getPressureGradient(dist);
 }
@@ -108,12 +108,12 @@ double computePressure(Particle& p, Particle &nb, double dist)
 // computeViscosity: calculate viscous force between two particles
 double computeViscosity(Particle& p, Particle& nb, double dist)
 {
-	if (nb.density <= 0.0)
+	if (nb.density == 0.0)
 		nb.density = 0.001;
 	return (nb.mass / nb.density) * getViscGradient(dist);
 }
 
-void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[])
+void interactWithMouse(Particle& p, glm::vec4 mousePos, glm::vec2 wPos, bool mouseClick[])
 {
 	// get distance from mouse position
 	double xDist = mousePos.x - p.pos[0];
@@ -121,6 +121,9 @@ void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[])
 	double dist = sqrt(xDist * xDist + yDist * yDist);
 	double dir[] = { xDist / dist, yDist / dist };
 	double speed = 0.55;
+
+	// get the neighborhood particles
+
 
 	//std::cout << dist << std::endl;
 	double infDist = 2.0;
