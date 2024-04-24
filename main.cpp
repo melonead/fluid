@@ -170,12 +170,37 @@ int main()
             cameraZ -= 0.1f;
         }*/
 
+        double mousePosX;
+        double mousePosY;
+        glfwGetCursorPos(window, &mousePosX, &mousePosY);
+
+        //std::cout << SCR_WIDTH / xRange << std::endl;
+        //double cellPos[] = { floorl((mousePosX / IRADIUS) / 30), floorl((mousePosY / IRADIUS) / 30) };
+        double mPos[] = { mousePosX, mousePosY };
+
+        glm::vec4 msPos = screenToWorldSpace(mPos, pMat, vMat);
+        mPos[0] = msPos.x * cameraZ;
+        mPos[1] = msPos.y * cameraZ;
+        mousePosition.x = mPos[0];
+        mousePosition.y = mPos[1];
+
       
         vMat = glm::translate(glm::mat4(1.0), glm::vec3(-cameraX, -cameraY, -cameraZ));
         deltaTime = (1.0 / 120.0);
         /*if (glfwGetTime() > 20)
             gravityAccel = -9.8;*/
+        
+        computeDensities(SimParticles, particleTable, neighbors, NUMPARTICLES);
+        simulateFluid(SimParticles, particleTable, NUMPARTICLES, deltaTime, gravityAccel, neighbors, translations, mousePosition, mouseKeyPressed);
         display(window, shaderProgram, lineShaderProgram, circleShaderProgram, rectShaderProgram, deltaTime);
+        // clear the table
+        clearTable(particleTable);
+        // repopulate the table with updated positions
+        for (int i = 0; i < NUMPARTICLES; i++)
+        {
+            insertInCell(SimParticles[i], particleTable);
+        }
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
@@ -232,7 +257,7 @@ void init(GLFWwindow* window)
 
     cameraX = 0.0f; cameraY = 0.0f; cameraZ = 24.2001f;
     
-    setUpCircleVertices(particleRadius, 0.0f, 0.0f);
+    setUpCircleVertices(0.15f, 0.0f, 0.0f);
 
     // projection matrix
     glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_HEIGHT);
@@ -273,29 +298,6 @@ void display(GLFWwindow* window,
     circleShaderProgram.use();
     circleShaderProgram.setMatrix4fv("mv_matrix", mvMat);
     circleShaderProgram.setMatrix4fv("proj_matrix", pMat);
-    for (int i = 0; i < NUMPARTICLES; i++)
-    {
-        glm::vec2 trans;
-        Particle& part = SimParticles[i];
-        trans.x = part.pos[0];
-        trans.y = part.pos[1];
-        
-        getNeighbors(part.pos, neighbors, particleTable);
-        translations[i] = trans;
-        computeDensity(part, neighbors, neighbors.size());
-        computeForces(part, neighbors, neighbors.size());
-        LeapFrogIntegration(part, deltaTime, gravityAccel);
-        interactWithMouse(part, mousePosition, mouseKeyPressed);
-
-        neighbors.clear();
-    }
-    // clear the table
-    clearTable(particleTable);
-    // repopulate the table with updated positions
-    for (int i = 0; i < NUMPARTICLES; i++)
-    {
-        insertInCell(SimParticles[i], particleTable);
-    }
 
     shaderProgram.use();
     shaderProgram.setMatrix4fv("mv_matrix", mvMat);
@@ -343,19 +345,6 @@ void display(GLFWwindow* window,
     //rectShaderProgram.use();
     //rectShaderProgram.setMatrix4fv("mv_matrix", mvMat);
     //rectShaderProgram.setMatrix4fv("proj_matrix", pMat);
-    double mousePosX;
-    double mousePosY;
-    glfwGetCursorPos(window, &mousePosX, &mousePosY);
-    
-    //std::cout << SCR_WIDTH / xRange << std::endl;
-    //double cellPos[] = { floorl((mousePosX / IRADIUS) / 30), floorl((mousePosY / IRADIUS) / 30) };
-    double mPos[] = { mousePosX, mousePosY };
-    
-    glm::vec4 p = screenToWorldSpace(mPos, pMat, vMat);
-    mPos[0] = p.x * cameraZ;
-    mPos[1] = p.y * cameraZ;
-    mousePosition.x = mPos[0];
-    mousePosition.y = mPos[1];
 
     /*glm::vec2 mCellPos = getCellPosition(mPos);
 
@@ -564,31 +553,6 @@ glm::vec4 screenToWorldSpace(double mousePos[], glm::mat4 projection, glm::mat4 
     return pos;
 }
 
-void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[])
-{
-    // get distance from mouse position
-    double xDist = mousePos.x - p.pos[0];
-    double yDist = mousePos.y - p.pos[1];
-    double dist = sqrt(xDist * xDist + yDist * yDist);
-    double dir[] = { xDist / dist, yDist / dist };
-    double speed = 0.55;
-
-    //std::cout << dist << std::endl;
-    double infDist = 2.0;
-    // repel 
-    if (dist < infDist && mouseClick[0])
-    {
-        p.velocity[0] += (-dir[0] * speed);
-        p.velocity[1] += (-dir[1] * speed);
-    }
-
-    // attract
-    if (dist < infDist && mouseClick[1])
-    {
-        p.velocity[0] += (dir[0] * speed);
-        p.velocity[1] += (dir[1] * speed);
-    }
-}
 
 /*
 1. mouse callback

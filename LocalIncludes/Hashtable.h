@@ -73,7 +73,10 @@ static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vec
 		for (int j = 0; j < size; j++)
 		{
 			Particle& nb = Table[key].at(j);
-			nbs.push_back(nb);
+			double xDist = nb.pos[0] - position[0];
+			double yDist = nb.pos[1] - position[1];
+			if ((xDist * xDist + yDist * yDist) < (IRADIUS * IRADIUS))
+				nbs.push_back(nb);
 		}
 
 	}
