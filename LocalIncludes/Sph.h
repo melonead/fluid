@@ -161,7 +161,6 @@ void simulateParticle(Particle& p, std::vector<Particle> &nbs, int N)
 		double pInf = computePressure(p, nb, dist);
 		pressureForce[0] += pInf * dirVec[0];
 		pressureForce[1] += pInf * dirVec[1];
-		//std::cout << pressureForce[0] << std::endl;
 		// compute viscosity
 		double vInf = computeViscosity(p, nb, dist);
 		viscForce[0] += (nb.velocity[0] - p.velocity[0]) * vInf * dirVec[0];
