@@ -23,7 +23,7 @@
 
 std::vector<Particle> particleTable[NUMCELLS]{};
 
-const int NUMSEGMENTS = 180;
+const int NUMSEGMENTS = 6;
 float CircleVertices[NUMSEGMENTS * 3 * 3];
 const float PI = 3.142857f;
 const float DEG2RAD = PI / 180.0f;
@@ -140,7 +140,7 @@ int main()
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // reserve neighbor size
-    neighbors.reserve(30);
+    neighbors.reserve(500);
     // reserve size of each cell
     for (int i = 0; i < NUMCELLS; i++)
     {
@@ -185,7 +185,7 @@ int main()
 
       
         vMat = glm::translate(glm::mat4(1.0), glm::vec3(-cameraX, -cameraY, -cameraZ));
-        deltaTime = (1.0 / 120.0);
+        deltaTime = (1.0 / 90.0);
         /*if (glfwGetTime() > 20)
             gravityAccel = -9.8;*/
         
@@ -456,8 +456,18 @@ void initParticles()
 {
     float range = 200.0f;
     int size = std::sqrt(NUMPARTICLES);
-    float startPos[2] = {-8.5f, -4.1f};
-    float spacing = 3.0f;
+    float startPos[2];
+    float spacingX = 0.5f;
+    float spacingY = 0.5f;
+    float spanX = spacingX * (size - 1);
+    float spanY = spacingY * (size - 1);
+    float width = xbound * 2.0;
+    float height = ybound * 2.0;
+    float w = (width - spanX) * 0.5;
+    float h = (height - spanY) * 0.5;
+    startPos[0] = X_MIN_BOUND + w;
+    startPos[1] = Y_MAX_BOUND - h;
+
     int c = 0;
     for (int y = 0; y < size; y++)
     {
@@ -466,8 +476,8 @@ void initParticles()
             int index = x + y * size;
             SimParticles[index].mass = 1;
             SimParticles[index].pressure = 0;
-            SimParticles[index].pos[0] = startPos[0] + x / (spacing * 0.5);
-            SimParticles[index].pos[1] = startPos[1] + y / spacing;
+            SimParticles[index].pos[0] = startPos[0] + (x * spacingX);
+            SimParticles[index].pos[1] = startPos[1] - (y * spacingY);
             SimParticles[index].id = index;
             insertInCell(SimParticles[index], particleTable);
         }

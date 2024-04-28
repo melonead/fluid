@@ -72,7 +72,7 @@ static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vec
 			continue;
 		for (int j = 0; j < size; j++)
 		{
-			Particle& nb = Table[key].at(j);
+			Particle &nb = Table[key][j];
 			double xDist = nb.pos[0] - position[0];
 			double yDist = nb.pos[1] - position[1];
 			if ((xDist * xDist + yDist * yDist) < (radius * radius))
