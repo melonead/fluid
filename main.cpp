@@ -199,7 +199,6 @@ int main()
         {
             insertInCell(SimParticles[i], particleTable);
         }
-        interactWithMouse(msPos, mousePosition, mouseKeyPressed, particleTable);
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
