@@ -76,7 +76,12 @@ void computeDensity(Particle &p, std::vector<Particle> nbs, int N)
 }
 
 // computeDensities: compute densities for all the particles
-void computeDensities(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS], std::vector<Particle> neighbors, int N)
+void computeDensities(
+	Particle particles[], 
+	std::vector<Particle>(&Table)[NUMCELLS], 
+	std::vector<Particle> neighbors, 
+	int N
+)
 {
 	neighbors.clear();
 	for (int i = 0; i < N; i++)
@@ -84,7 +89,7 @@ void computeDensities(Particle particles[], std::vector<Particle>(&Table)[NUMCEL
 		Particle& p = particles[i];
 		p.density = 0.0;
 		double dist;
-		getNeighbors(p.pos, neighbors, Table);
+		getNeighbors(p.pos, neighbors, Table, IRADIUS);
 		for (int j = 0; j < neighbors.size(); j++)
 		{	
 			Particle& nb = neighbors.at(j);
@@ -113,33 +118,49 @@ double computeViscosity(Particle& p, Particle& nb, double dist)
 	return (nb.mass / nb.density) * getViscGradient(dist);
 }
 
-void interactWithMouse(Particle& p, glm::vec4 mousePos, glm::vec2 wPos, bool mouseClick[])
+void interactWithMouse(
+	glm::vec4 mousePos, 
+	glm::vec2 wPos, 
+	bool mouseClick[],
+	std::vector<Particle>(&Table)[NUMCELLS]
+)
 {
 	// get distance from mouse position
-	double xDist = mousePos.x - p.pos[0];
-	double yDist = mousePos.y - p.pos[1];
-	double dist = sqrt(xDist * xDist + yDist * yDist);
-	double dir[] = { xDist / dist, yDist / dist };
-	double speed = 0.55;
-
-	// get the neighborhood particles
-
-
-	//std::cout << dist << std::endl;
+	double xDist;
+	double yDist;
+	double speed = 10.55;
 	double infDist = 2.0;
-	// repel 
-	if (dist < infDist && mouseClick[0])
-	{
-		p.velocity[0] += (-dir[0] * speed);
-		p.velocity[1] += (-dir[1] * speed);
-	}
+	double dist;
 
-	// attract
-	if (dist < infDist && mouseClick[1])
+	// get Neighbors
+	std::vector<Particle> neighbors;
+	double pos[] = {wPos.x, wPos.y};
+	double rad = 2.0;
+	getNeighbors(pos, neighbors, Table, rad);
+	int nSize = neighbors.size();
+	std::cout << nSize << std::endl;
+	for (int i = 0; i < nSize; i++)
 	{
-		p.velocity[0] += (dir[0] * speed);
-		p.velocity[1] += (dir[1] * speed);
+		Particle& p = neighbors.at(i);
+		xDist = wPos.x - p.pos[0];
+		yDist = wPos.y - p.pos[1];
+		dist = sqrt(xDist * xDist + yDist * yDist);
+		double dir[2] = {xDist / dist, yDist / dist};
+		// repel
+		if (dist < infDist && mouseClick[0])
+		{
+			p.velocity[0] += (-dir[0] * speed);
+			p.velocity[1] += (-dir[1] * speed);
+		}
+
+		// attract
+		if (dist < infDist && mouseClick[1])
+		{
+			p.velocity[0] += (dir[0] * speed);
+			p.velocity[1] += (dir[1] * speed);
+		}
 	}
+	
 }
 
 // simulateParticle: complete run on a single particle's simulation
@@ -213,9 +234,17 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 }
 
 // simulateFluid: complete simulation run on all the particles
-void simulateFluid(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS], 
-	int N, double deltaTime, double gravity, std::vector<Particle> neighbors, 
-	glm::vec2 translations[], glm::vec4 mousePos, bool mouseClick[])
+void simulateFluid(
+	Particle particles[], 
+	std::vector<Particle>(&Table)[NUMCELLS], 
+	int N, 
+	double deltaTime, 
+	double gravity, 
+	std::vector<Particle> neighbors, 
+	glm::vec2 translations[], 
+	glm::vec4 mousePos, 
+	bool mouseClick[]
+)
 {	
 
 	for (int i = 0; i < N; i++)
@@ -225,10 +254,9 @@ void simulateFluid(Particle particles[], std::vector<Particle>(&Table)[NUMCELLS]
 		trans.x = p.pos[0];
 		trans.y = p.pos[1];
 		translations[i] = trans;
-		getNeighbors(p.pos, neighbors, Table);
+		getNeighbors(p.pos, neighbors, Table, IRADIUS);
 		simulateParticle(p, neighbors, neighbors.size());
 		LeapFrogIntegration(p, deltaTime, gravity);
-		//interactWithMouse(p, mousePos, mouseClick);
 		neighbors.clear();
 	}
 }

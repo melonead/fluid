@@ -65,7 +65,6 @@ void drawLine(float start[], float end[]);
 void drawCircle(float center[], float radius);
 void drawRect(double topLeft[], double height, double width);
 glm::vec4 screenToWorldSpace(double mousePos[], glm::mat4 projection, glm::mat4 viewMatrix);
-void interactWithMouse(Particle& p, glm::vec4 mousePos, bool mouseClick[]);
 
 const char* vPath = "C:/Users/brian/programming_projects/fluidSim/shader/vertex_shader.glsl";
 const char* fPath = "C:/Users/brian/programming_projects/fluidSim/shader/fragment_shader.glsl";
@@ -200,6 +199,7 @@ int main()
         {
             insertInCell(SimParticles[i], particleTable);
         }
+        interactWithMouse(msPos, mousePosition, mouseKeyPressed, particleTable);
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);

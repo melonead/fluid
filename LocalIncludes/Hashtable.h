@@ -22,11 +22,11 @@ static int tableHash(glm::vec2 cellPos)
 }
 
 // getCellPosition: convert world position to cell position
-static glm::vec2 getCellPosition (double position[])
+static glm::vec2 getCellPosition (double position[], double radius)
 {
 	// discretize particle position from float to int
-	int x = floor(position[0] / IRADIUS);
-	int y = floor(position[1] / IRADIUS);
+	int x = floor(position[0] / radius);
+	int y = floor(position[1] / radius);
 	return glm::vec2(x, y);
 }
 
@@ -34,7 +34,7 @@ static glm::vec2 getCellPosition (double position[])
 // insertInMap: inserts the particle into the hashtable
 static void insertInCell(Particle &p, std::vector<Particle> (& Table)[NUMCELLS])
 {
-	glm::vec2 cellPos = getCellPosition(p.pos);
+	glm::vec2 cellPos = getCellPosition(p.pos, IRADIUS);
 	int key = tableHash(cellPos);
 	Table[key].emplace_back(p);
 	p.index = Table[key].size() - 1;
@@ -44,7 +44,7 @@ static void insertInCell(Particle &p, std::vector<Particle> (& Table)[NUMCELLS])
 
 static int computeKey(double position[])
 {
-	glm::vec2 cellPos = getCellPosition(position);
+	glm::vec2 cellPos = getCellPosition(position, IRADIUS);
 	int key = tableHash(cellPos);
 	return key;
 }
@@ -57,10 +57,10 @@ static void clearTable(std::vector<Particle>(&Table)[NUMCELLS])
 	}
 }
 
-static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle>(&Table)[NUMCELLS])
+static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vector<Particle>(&Table)[NUMCELLS], double radius)
 {
 	glm::vec2 cellPos;
-	glm::vec2 bcellPos = getCellPosition(position);
+	glm::vec2 bcellPos = getCellPosition(position, radius);
 	int key;
 	for (int i = 0; i < 9; i++)
 	{
@@ -75,11 +75,13 @@ static void getNeighbors(double position[], std::vector<Particle>& nbs, std::vec
 			Particle& nb = Table[key].at(j);
 			double xDist = nb.pos[0] - position[0];
 			double yDist = nb.pos[1] - position[1];
-			if ((xDist * xDist + yDist * yDist) < (IRADIUS * IRADIUS))
+			if ((xDist * xDist + yDist * yDist) < (radius * radius))
 				nbs.push_back(nb);
 		}
 
 	}
 }
+
+
 
 #endif // !HASHTABLE_H

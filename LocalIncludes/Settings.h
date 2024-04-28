@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <cmath>
-const int NUMPARTICLES = 1601;
+const int NUMPARTICLES = 400;
 
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // 0.35f was good but unstable, try it later
