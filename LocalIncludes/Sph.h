@@ -129,10 +129,10 @@ void interactWithMouse(
 	double xDist = mousePos.x - p.pos[0];
 	double yDist = mousePos.y - p.pos[1];
 	double speed = 0.85;
-	double infDist = 6.0;
+	double infDist = 2.0;
 	double distSqr = xDist * xDist + yDist * yDist;
 
-	if (distSqr < infDist)
+	if (distSqr < (infDist * infDist) )
 	{
 		double dist = sqrt(distSqr);
 		double dir[2] = { xDist / dist, yDist / dist };

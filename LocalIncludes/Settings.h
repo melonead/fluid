@@ -5,7 +5,7 @@
 const int NUMPARTICLES = 1600;
 
 const double pi = 3.142857;
-const double IRADIUS = 0.45; // 0.35f was good but unstable, try it later
+const double IRADIUS = 0.45; // .35f was good but unstable, try it later
 const double IDEALDENS = 997.0;
 const double VISCMULTIPLIER = 0.3;
 
@@ -20,7 +20,7 @@ const double spikyLap = 45.0f / (pi * pow(IRADIUS, 6.0));
 //const static double spikyLap = 40.f / (pi * pow(IRADIUS, 5.f));
 
 // velocity damp
-const double DAMP = -0.2;
+const double DAMP = -0.8;
 
 // screen bounds for the
 const double xbound = 20.0;
