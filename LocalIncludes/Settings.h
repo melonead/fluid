@@ -24,10 +24,10 @@ const double DAMP = -0.8;
 
 // screen bounds for the
 const double xbound = 20.0;
-const double ybound = 10.0;
+const double ybound = 20.0;
 const double X_MIN_BOUND = xbound * -1.0;
 const double X_MAX_BOUND = xbound;
-const double Y_MIN_BOUND = ybound * -1.0;
+const double Y_MIN_BOUND = 10 * -1.0;
 const double Y_MAX_BOUND = ybound;
 
 const int NUMCELLS = (xbound / IRADIUS) * (ybound / IRADIUS);

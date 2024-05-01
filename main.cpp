@@ -19,7 +19,7 @@
 
 
 #define numVAOs 1
-#define numVBOs 5
+#define numVBOs 6
 
 std::vector<Particle> particleTable[NUMCELLS]{};
 
@@ -46,6 +46,7 @@ float aspect;
 glm::mat4 pMat, vMat, mMat, mvMat, tMat, rMat;
 
 glm::vec2 translations[NUMPARTICLES];
+double velocities[NUMPARTICLES];
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -137,7 +138,7 @@ int main()
     init(window);
     glfwSetWindowSizeCallback(window, window_reshape_callback);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // reserve neighbor size
     neighbors.reserve(50);
@@ -190,7 +191,17 @@ int main()
             gravityAccel = -9.8;*/
         
         computeDensities(SimParticles, particleTable, neighbors, NUMPARTICLES);
-        simulateFluid(SimParticles, particleTable, NUMPARTICLES, deltaTime, gravityAccel, neighbors, translations, mousePosition, mouseKeyPressed);
+        simulateFluid(
+            SimParticles, 
+            particleTable, 
+            NUMPARTICLES, 
+            deltaTime, 
+            gravityAccel, 
+            neighbors, 
+            translations, 
+            velocities, 
+            mousePosition, 
+            mouseKeyPressed);
         display(window, shaderProgram, lineShaderProgram, circleShaderProgram, rectShaderProgram, deltaTime);
         // clear the table
         clearTable(particleTable);
@@ -253,9 +264,20 @@ void init(GLFWwindow* window)
     glGenBuffers(numVBOs, vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]); // vertex positions
 
+    float quadVerts[] = {
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         -0.5f, 0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f
+    };
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVerts), quadVerts, GL_STATIC_DRAW);
+
     cameraX = 0.0f; cameraY = 0.0f; cameraZ = 24.2001f;
     
-    setUpCircleVertices(0.15f, 0.0f, 0.0f);
+    //setUpCircleVertices(0.15f, 0.0f, 0.0f);
 
     // projection matrix
     glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_HEIGHT);
@@ -300,14 +322,24 @@ void display(GLFWwindow* window,
     shaderProgram.setMatrix4fv("mv_matrix", mvMat);
     shaderProgram.setMatrix4fv("proj_matrix", pMat);
     glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(translations), translations, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(translations), translations, GL_DYNAMIC_DRAW);
     glVertexAttribDivisor(1, 1);
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[5]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(velocities), velocities, GL_DYNAMIC_DRAW);
+    glVertexAttribDivisor(2, 2);
+
+    glVertexAttribPointer(2, 2, GL_DOUBLE, GL_FALSE, 0, NULL);
+    glEnableVertexAttribArray(2);
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
@@ -401,6 +433,7 @@ void setUpCircleVertices(float radius, float cx, float cy) // OPTIMIZE: duplicat
         index += 3;
 
     }
+
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(CircleVertices), CircleVertices, GL_STATIC_DRAW);
 }
@@ -543,6 +576,12 @@ void drawCircle(float center[], float radius)
     glEnableVertexAttribArray(0);
     glBindVertexArray(vao[0]);
     glDrawArrays(GL_LINE_LOOP, 0, numVertices);
+}
+
+void drawACircle(float center[], float radius)
+{
+    glBindVertexArray(vao[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 glm::vec4 screenToWorldSpace(double mousePos[], glm::mat4 projection, glm::mat4 viewMatrix)

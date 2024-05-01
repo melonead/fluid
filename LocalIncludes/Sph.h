@@ -223,13 +223,14 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 
 // simulateFluid: complete simulation run on all the particles
 void simulateFluid(
-	Particle particles[], 
-	std::vector<Particle>(&Table)[NUMCELLS], 
-	int N, 
-	double deltaTime, 
-	double gravity, 
-	std::vector<Particle> neighbors, 
-	glm::vec2 translations[], 
+	Particle particles[],
+	std::vector<Particle>(&Table)[NUMCELLS],
+	int N,
+	double deltaTime,
+	double gravity,
+	std::vector<Particle> neighbors,
+	glm::vec2 translations[],
+	double velocities[],
 	glm::vec4 mousePos, 
 	bool mouseClick[]
 )
@@ -238,10 +239,13 @@ void simulateFluid(
 	for (int i = 0; i < N; i++)
 	{
 		glm::vec2 trans;
+		double velocitySqrd;
 		Particle& p = particles[i];
 		trans.x = p.pos[0];
 		trans.y = p.pos[1];
+		velocitySqrd = abs(p.velocity[0] * p.velocity[0]) + abs(p.velocity[1] * p.velocity[1]);
 		translations[i] = trans;
+		velocities[i] = velocitySqrd;
 		getNeighbors(p.pos, neighbors, Table, IRADIUS);
 		simulateParticle(p, neighbors, neighbors.size());
 		LeapFrogIntegration(p, deltaTime, gravity);
