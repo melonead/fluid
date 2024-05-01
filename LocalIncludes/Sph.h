@@ -36,7 +36,7 @@ double _min(double a, double b)
 // getPressure: return the pressure to be applied to a particle
 double getPressure(double d)
 {
-	return PRESSUREMULTIPLIER * (d - IDEALDENS);
+	return std::max(PRESSUREMULTIPLIER * (d - IDEALDENS), 0.0);
 }
 
 // avPressure: return the average pressure between 
@@ -105,16 +105,12 @@ void computeDensities(
 // computePressure: pressure acting between two particles
 double computePressure(Particle& p, Particle &nb, double dist)
 {
-	if (nb.density == 0.0)
-		nb.density = 0.001;
 	return (nb.mass / nb.density) * avPressure(p, nb) * getPressureGradient(dist);
 }
 
 // computeViscosity: calculate viscous force between two particles
 double computeViscosity(Particle& p, Particle& nb, double dist)
 {
-	if (nb.density == 0.0)
-		nb.density = 0.001;
 	return (nb.mass / nb.density) * getViscGradient(dist);
 }
 
@@ -180,8 +176,8 @@ void simulateParticle(Particle& p, std::vector<Particle> &nbs, int N)
 		viscForce[1] += (nb.velocity[1] - p.velocity[1]) * vInf * dirVec[1];
 	}
 
-	p.totalForce[0] = -pressureForce[0] + viscForce[0] * VISCMULTIPLIER;
-	p.totalForce[1] = -pressureForce[1] + viscForce[1] * VISCMULTIPLIER;
+	p.totalForce[0] = pressureForce[0] + viscForce[0] * VISCMULTIPLIER;
+	p.totalForce[1] = pressureForce[1] + viscForce[1] * VISCMULTIPLIER;
 
 }
 

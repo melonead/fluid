@@ -6,7 +6,7 @@ const int NUMPARTICLES = 1600;
 
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // .35f was good but unstable, try it later
-const double IDEALDENS = 997.0;
+const double IDEALDENS = -1000.0;
 const double VISCMULTIPLIER = 0.3;
 
 //const double gravityAccel = 0.0;//-9.8;
