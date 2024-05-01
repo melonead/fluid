@@ -140,7 +140,7 @@ int main()
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // reserve neighbor size
-    neighbors.reserve(500);
+    neighbors.reserve(50);
     // reserve size of each cell
     for (int i = 0; i < NUMCELLS; i++)
     {
@@ -261,8 +261,7 @@ void init(GLFWwindow* window)
     glfwGetFramebufferSize(window, &SCR_WIDTH, &SCR_HEIGHT);
     aspect = (float)SCR_WIDTH / (float)SCR_HEIGHT;
     pMat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
-
-    // load image    
+ 
     vMat = {
         1.0f,     0.0f,     0.0f,     0.0f,
         0.0f,     1.0f,     0.0f,     0.0f,
