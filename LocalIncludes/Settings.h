@@ -2,12 +2,13 @@
 #define SETTINGS_H
 
 #include <cmath>
+#include <glm/vec2.hpp>
 const int NUMPARTICLES = 1600;
 
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // .35f was good but unstable, try it later
 const double IDEALDENS = -1000.0;
-const double VISCMULTIPLIER = 0.3;
+const double VISCMULTIPLIER = 10.3;
 
 //const double gravityAccel = 0.0;//-9.8;
 const double PRESSUREMULTIPLIER = 1000.0;
@@ -21,6 +22,7 @@ const double spikyLap = 45.0f / (pi * pow(IRADIUS, 6.0));
 
 // velocity damp
 const double DAMP = -0.8;
+const double MAXVEL = 16.0;
 
 // screen bounds for the
 const double xbound = 20.0;

@@ -187,6 +187,12 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 
 	double ax = p.acceleration[0] + ((p.totalForce[0] / p.density) * deltaTime);
 	p.velocity[0] += ((p.acceleration[0] + ax) * deltaTime) / 2.0f;
+	if (p.velocity[0] > MAXVEL) {
+		p.velocity[0] = std::min(p.velocity[0], MAXVEL);
+	}
+	else if (p.velocity[0] < -MAXVEL) {
+		p.velocity[0] = std::max(p.velocity[0], -MAXVEL);
+	}
 	p.pos[0] += (p.velocity[0] * deltaTime + (p.acceleration[0] * pow(deltaTime, 2)) / 2.0);
 	p.predictedPosition[0] = p.pos[0] + p.velocity[0] * deltaTime;
 
@@ -205,6 +211,12 @@ void LeapFrogIntegration(Particle& p, double deltaTime, double gravityAccel)
 	double ay = p.acceleration[1] + ((p.totalForce[1] / p.density) * deltaTime);
 	p.velocity[1] += ((p.acceleration[1] + ay) * deltaTime) / 2.0f;
 	p.velocity[1] += gravityAccel * deltaTime;
+	if (p.velocity[1] > MAXVEL) {
+		p.velocity[1] = std::min(p.velocity[1], MAXVEL);
+	}
+	else if (p.velocity[1] < -MAXVEL) {
+		p.velocity[1] = std::max(p.velocity[1], -MAXVEL);
+	}
 	p.pos[1] += (p.velocity[1] * deltaTime + (p.acceleration[1] * pow(deltaTime, 2.0)) / 2.0);
 	p.predictedPosition[1] = p.pos[1] + p.velocity[1] * deltaTime;
 
@@ -243,9 +255,9 @@ void simulateFluid(
 		Particle& p = particles[i];
 		trans.x = p.pos[0];
 		trans.y = p.pos[1];
-		velocitySqrd = abs(p.velocity[0] * p.velocity[0]) + abs(p.velocity[1] * p.velocity[1]);
+		velocitySqrd = sqrt((p.velocity[0] * p.velocity[0]) + (p.velocity[1] * p.velocity[1]));
 		translations[i] = trans;
-		velocities[i] = velocitySqrd;
+		velocities[i] = velocitySqrd/MAXVEL;
 		getNeighbors(p.pos, neighbors, Table, IRADIUS);
 		simulateParticle(p, neighbors, neighbors.size());
 		LeapFrogIntegration(p, deltaTime, gravity);
@@ -267,7 +279,6 @@ void VerletIntergration(Particle& p, double deltaTime, double gravityAccel)
 	if (p.pos[0] < X_MIN_BOUND)
 	{
 		p.pos[0] = X_MIN_BOUND + eps;
-
 	}
 	if (p.pos[0] > X_MAX_BOUND) {
 		p.pos[0] = X_MAX_BOUND - eps;

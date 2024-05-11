@@ -9,20 +9,24 @@ in float velSqrd;
 uniform mat4 mv_matrix;
 uniform mat4 proj_matrix;
 float radius = 0.2;
+vec3 red = vec3(1.0, 0.0, 0.0);
+vec3 blue = vec3(0.0, 0.0, 1.0);
+float fade = 0.05;
+vec3 lerp(vec3 a, vec3 b, float c);
 
 void main()
 {
-	float thickness = 0.5;
-	float fade = 0.05;
 	
 	float trans;
 	//vec4 col = vec4(0.0, 0.0, 0.0, 0.0);
 	float d = length(pos);
-	float velColor = velSqrd/100.0;
-	float r = smoothstep(0.0, 0.5, velColor);
-	float g = smoothstep(0.5, 1.0, velColor);
 	vec3 col = vec3(smoothstep(radius, radius - fade, d));
 	trans = 1.0 - step(radius, d);
-	col *= vec3(r, g, 1.0);
+	//col *= mix(blue, red, velSqrd);
+	col *= lerp(blue, red, velSqrd);
 	color = vec4(col, trans);
+}
+
+vec3 lerp(vec3 a, vec3 b, float c) {
+	return a * (1.0 - c) + b * c;
 }
