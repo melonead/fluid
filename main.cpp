@@ -81,12 +81,13 @@ const char* rectfPath = "C:/Users/brian/programming_projects/fluidSim/shader/rec
 
 int SCR_WIDTH =  1200;
 int SCR_HEIGHT = 600;
-double gravityAccel =  -9.8;
+double gravityAccel = -9.8;
 std::vector<Particle> neighbors;
 
 
 // mouse stuff
 bool mouseKeyPressed[] = { false, false};
+bool scroll[] = { false, false };
 glm::vec4 mousePosition;
 
 int main()
@@ -111,7 +112,7 @@ int main()
     // --------------------
     GLFWwindow* window; 
     window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Fluid Simulation", NULL, NULL);
-    //glfwSetWindowSizeLimits(window, 800, 600, 1200, 1200);
+    //glfwSetWindowSizeLimits(window, 600, 300, 1200, 600);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -228,6 +229,7 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
     {
         mouseKeyPressed[0] = true;
@@ -242,7 +244,7 @@ void processInput(GLFWwindow* window)
     else {
         mouseKeyPressed[1] = false;
     }
-
+        
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

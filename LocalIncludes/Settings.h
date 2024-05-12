@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include <glm/vec2.hpp>
-const int NUMPARTICLES = 1600;
+const int NUMPARTICLES = 1800;
 
 const double pi = 3.142857;
 const double IRADIUS = 0.45; // .35f was good but unstable, try it later
