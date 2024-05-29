@@ -3,10 +3,10 @@
 
 #include <cmath>
 #include <glm/vec2.hpp>
-const int NUMPARTICLES = 1800;
+const int NUMPARTICLES = 1425;
 
 const double pi = 3.142857;
-const double IRADIUS = 0.45; // .35f was good but unstable, try it later
+constexpr double IRADIUS = 0.45; // .35f was good but unstable, try it later
 const double IDEALDENS = -1000.0;
 const double VISCMULTIPLIER = 10.3;
 
@@ -25,14 +25,14 @@ const double DAMP = -0.8;
 const double MAXVEL = 16.0;
 
 // screen bounds for the
-const double xbound = 20.0;
-const double ybound = 10.0;
-const double X_MIN_BOUND = xbound * -1.0;
-const double X_MAX_BOUND = xbound;
-const double Y_MIN_BOUND = ybound * -1.0;
-const double Y_MAX_BOUND = ybound;
+constexpr double xbound = 20.0;
+constexpr double ybound = 10.0;
+constexpr double X_MIN_BOUND = xbound * -1.0;
+constexpr double X_MAX_BOUND = xbound;
+constexpr double Y_MIN_BOUND = ybound * -1.0;
+constexpr double Y_MAX_BOUND = ybound;
 
-const int NUMCELLS = (xbound / IRADIUS) * (ybound / IRADIUS);
+constexpr int NUMCELLS = (xbound / IRADIUS) * (ybound / IRADIUS);
 
 const int  yRange = (Y_MAX_BOUND - Y_MIN_BOUND) / IRADIUS;
 const int  xRange = (X_MAX_BOUND - X_MIN_BOUND) / IRADIUS;
@@ -69,7 +69,7 @@ struct Particle
 	int prevIndex = NULL;
 	double pos[2] = { 0.0, 0.0 };
 	double prevPos[2] = { 0.0, 0.0 };
-	double mass = 2.5;
+	double mass = 0.5;
 	double pressure = 0.0;
 	double density = 0.0;
 	double velocity[2] = { 0.0, 0.0 };
